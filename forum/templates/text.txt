@@ -1,0 +1,35 @@
+This is the code of my old-made bootstrap form
+
+<input type="hidden" name="csrfmiddlewaretoken" value="Y0ov4lCR2FFvBda9dtGnHxNdGnxoij4hHSaqfTXAMFggzoDW1HxvPxYfcnvD6Peh">
+						<div class="form-group"><label class="control-label" for="id_subject">Subject</label><select name="subject" class="form-control" title="" required id="id_subject">
+  							<option value="" selected>---------</option>
+  							{% for subject in all_subjects %}
+  							<option style="font-size: 1.25em" value="{{ subject.pk }}">{{ subject }}</option>
+  							{% endfor %}
+						</select></div>
+						<div class="form-group"><label class="control-label" for="id_topic" style="font-size: 1.25em">Topic</label><input type="text" name="topic" maxlength="200" class="form-control" placeholder="Topic" title="" required id="id_topic"></div>
+						<div class="form-group"><label class="control-label" for="id_grade">Grade</label><select name="grade" class="form-control" title="" required id="id_grade">
+  							<option value="" selected>---------</option>
+  							{% for grade in grades %}
+  							<option style="font-size: 1.25em" value="{{ grade.pk }}">{{ grade }}</option>
+  							{% endfor %}
+							</select>
+						</div>
+						<div class="form-group"><label class="control-label" for="id_text">Text</label><textarea name="text" cols="40" rows="10" maxlength="5000" class="form-control" placeholder="Text" title="" required id="id_text"></textarea></div>
+
+
+forum > views.py > detail
+if request.method == "POST":
+    form = CommentForm(request.POST)
+    if form.is_valid():
+      if request.user.is_authenticated:
+        form = form.save(commit=False)
+        form.related_post = Post.objects.get(pk=pk)
+        form.created_by = request.user
+        post.answers +=1
+        post.save()
+        form.save()
+        request.user.userprofile.answers += 1
+        request.user.userprofile.questions +=1
+        request.user.userprofile.save()
+      return redirect("/forum/post/{}/{}/".format(post.pk, post.slug))

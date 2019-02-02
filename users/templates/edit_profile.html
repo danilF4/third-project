@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+{% block second_content %}
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<div id="sidebar-profile">
+				<div style="border-bottom: 1px #c0c0c0 solid">
+					<div class="sidebar-name-image">
+						<div class="sidebar-name"> {{ user.username }}</div>
+						{% if user_profile.image %}
+						<div class="sidebar-image"><img width="185" height="185" class="img-circle" style="object-fit: cover" src="{{ user_profile.image.url }}"></div>
+						{% else %}
+						<div class="sidebar-image"><img width="185" height="185" class="img-circle" src="{% static 'img/no_photo.jpg' %}"></div>
+						{% endif %}
+					</div>
+				</div>
+				<div class="sidebar-others">
+					<div class="options">
+						<ul class="list-options">
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'users:profile' request.user.username %}"><i class="fas fa-cogs option-icon-set"></i>	Личн. Профиль
+							</a></div></li>
+							{% if request.user == user %}
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'users:profile-edit' request.user.username %}"><i class="fas fa-user-edit"></i>	Измен. профиль
+							</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href=""><i class="far fa-thumbs-up option-icon"></i>	Понравившиеся</a></div></li>
+							{% endif %}
+							<li><div class="option-a-div"><a class="option-a" href="#"><i class="fas fa-comments option-icon"></i>	 Комментарии</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'guidebook' %}"><i class="fas fa-book option-icon"></i>	Помощь</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'users:logout' %}"><i class="fas fa-sign-out-alt option-icon"></i>	Выйти</a></div></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+			<div id="content-profile">
+				<div class="settings-profile">ЛИЧНАЯ ИНФОРМАЦИЯ</div>
+				<div class="content-profile">
+					<div class="form-settings">
+						<form method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+							{% bootstrap_form form %}
+							<button type="submit" class="btn btn-lg btn-danger"> Изменить профиль</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row" style="border-bottom: 2px #F4f4f4 solid">
+				<div class="upper-footer">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Аккаунт</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Изменить профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Пользователи</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Войти</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Зарегистрироваться</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Форум</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Последнее</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Спросить</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Самое популярное</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Другое</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Top Users</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">О нас</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Тех поддержка</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Помощь по сайту</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="social-icons">
+					<div class="icon-osn"> Медиа: </div>
+					<div class="icon"><a class="icon-a icon-a-instagram" href=""><i class="fab fa-instagram"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-facebook" href=""><i class="fab fa-facebook-square"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-youtube" href=""><i class="fab fa-youtube"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-twitter" href=""><i class="fab fa-twitter-square"></i></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

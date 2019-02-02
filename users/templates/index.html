@@ -1,0 +1,54 @@
+{% load static %}{% load bootstrap3 %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Světlo {% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'icons/other/logo_icon_title.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Crimson+Text" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!-- Epic styles -->
+    <link rel="stylesheet" href="{% static 'css/final_css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style6.css' %}">
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/edit_form.css' %}">-->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/font-awesome/css/font-awesome.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/my_style_old.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style22.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" crossorigin="anonymous">
+</head>
+<body>
+    <div class="wrapper">{% block first_content %}{% endblock %}</div>
+
+    <div class="backwrap gradient">
+        <div class="back-shapes">
+            <em class="active epic-icon fa fa-send-o floating" style="top:9.907120743034056%;left:4.375%;animation-delay:-3s;"></em>
+            <em class="active epic-icon fa fa-send-o floating" style="top:49.22600619195047%;left:12.604166666666666%;animation-delay:-2.6s;"></em>
+            <em class="active epic-icon fa fa-power-off floating" style="top:   21.568627450980394%;left:79.84375%;animation-delay:-4.45s;"></em>
+            <em class="active epic-icon fa fa-power-off floating" style="top:67.18266253869969%;left:94.53125%;animation-delay:-4.1s;"></em>
+            <em class="active epic-icon fa fa-power-off floating" style="top:90.50567595459236%;left:85%;animation-delay:-2.3s;"></em>
+            <em class="active epic-icon fa fa-remove floating" style="top:18.059855521155832%;left:25.729166666666668%;animation-delay:-3.1s;"></em>
+            <em class="active epic-icon fa fa-remove floating" style="top:80.90815273477813%;left:52.708333333333336%;animation-delay:-2.4s;"></em>
+            <em class="active epic-icon fa fa-remove floating" style="top:42.621259029927764%;left:60.9375%;animation-delay:-1.05s;"></em>
+            <em class="active epic-icon fa fa-plane floating" style="top:2.3735810113519094%;left:41.875%;animation-delay:-0.55s;"></em>
+
+            <em class="active epic-icon fa fa-plane floating" style="top:21.46542827657379%;left:91.61458333333333%;animation-delay:-2.65s;"></em>
+
+            <em class="active epic-icon fa fa-plane floating" style="top:10.42311661506708%;left:16.145833333333332%;animation-delay:-0.85s;"></em>
+
+            <em class="active epic-icon fa fa-wifi floating" style="top:78.2249742002064%;left:14.375%;animation-delay:-0.95s;"></em>
+
+            <em class="active epic-icon fa fa-wifi floating" style="top:65.1186790505676%;left:42.34375%;animation-delay:-2.95s;"></em>
+
+            <em class="active epic-icon fa fa-wifi floating" style="top:6.295149638802889%;left:95.36458333333333%;animation-delay:-1.05s;"></em>
+        </div>
+    </div>
+<script src="{% static 'assets/jquery/jquery-1.11.3.min.js' %}" type="text/javascript" defer></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

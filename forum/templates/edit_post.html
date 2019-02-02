@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+{% block second_content %}
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-8 col-md-8 ">
+			<div class="content">
+				<div class="edit-form-1">
+					<div class="edit-form-h1">Изменить пост</div>
+				</div>
+				<div class="edit-form-2">
+					<div class="edit-form-2-1">
+						<form method="POST" >
+							{% csrf_token %}
+							{% bootstrap_form form %}
+							<button class="btn btn-danger" type="submit">Отправить</button>
+						</form>
+					</div>
+				</div>
+				<div class="edit-form-3">
+					<div class="edit-form-3-1">
+						<a href="{% url 'forum:detail' instance.pk instance.slug %}">Отправиться назад к посту без каких-либо изменений</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-users"></i> <span class="subject-parent-h1">Другое</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/top_users.png' %}"> <a class="subject-a" href="">Топ пользователи</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/about_us.png' %}"> <a class="subject-a" href="">О нас</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/new_user.png' %}"> <a class="subject-a" href="">Гайд по сайту</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/help.png' %}"> <a class="subject-a" href="">Помощь</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row" style="border-bottom: 2px #F4f4f4 solid">
+				<div class="upper-footer">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Accounts</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Edit Profile</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">New Users</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Login</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Register</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Profile</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Forum</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">New Posts</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Ask Question</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Top Posts</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Week Posts</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Other</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Top Users</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">About us</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Help</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Guidebook</a></li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+					<div class="social-icons">
+						<div class="icon-osn"> Медиа: </div>
+						<div class="icon"><a class="icon-a icon-a-instagram" href=""><i class="fab fa-instagram"></i></a></div>
+						<div class="icon"><a class="icon-a icon-a-facebook" href=""><i class="fab fa-facebook-square"></i></a></div>
+						<div class="icon"><a class="icon-a icon-a-youtube" href=""><i class="fab fa-youtube"></i></a></div>
+						<div class="icon"><a class="icon-a icon-a-twitter" href=""><i class="fab fa-twitter-square"></i></a></div>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

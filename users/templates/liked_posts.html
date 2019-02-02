@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block second_content %}
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+			<div id="sidebar-profile">
+				<div style="border-bottom: 1px #c0c0c0 solid">
+					<div class="sidebar-name-image">
+						<div class="sidebar-name"> {{ user_liked.username }}</div>
+						<div class="sidebar-image"><img width="185" class="img-circle" src="{{ user_profile.image.url }}"></div>
+					</div>
+				</div>
+				<div class="sidebar-others">
+					<div class="options">
+						<ul class="list-options">
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'users:profile' request.user.username %}"><i class="fas fa-cogs option-icon-set"></i>	Options</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href="{% url 'users:liked_posts' request.user.username %}"><i class="far fa-thumbs-up option-icon"></i>	Liked</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href="#"><i class="fas fa-comments option-icon"></i>	My comments</a></div></li>
+							<li><div class="option-a-div"><a class="option-a" href="#"><i class="fas fa-sign-out-alt option-icon"></i>	Quit</a></div></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% for post in posts %}
+		<div>{{ post.topic }}</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

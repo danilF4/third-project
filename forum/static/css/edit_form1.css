@@ -1,0 +1,39 @@
+.margin-other{
+	margin: 5px 5px 5px 5px;
+	width: 100%;
+}	
+.edit-form-h1{
+	font-size: 40px;
+	text-align: center;
+	border-bottom: 2px #F48024 solid
+}
+.edit-form-2-1{
+	margin-top: 15px;
+	margin-right: 20px;
+	margin-left: 20px;
+	margin-bottom: 20px
+}
+.edit-form-2{
+	border-bottom: 2px #F48024 solid;
+}
+.edit-form-3{
+}
+.edit-form-3-1{
+	margin: 7.5px 12.5px 7.5px 12.5px;
+	font-size: 1.5em;
+	transition: 0.25s
+}
+.edit-form-3-1:hover{
+	/*margin-left: 1.5px*/
+}
+
+.edit-form-3-1-a{
+	font-size: 20px
+}
+.transition{
+	transition: 0.25s;
+}
+.transition:hover{
+	color: #F48024;
+	margin-left: 2px
+}

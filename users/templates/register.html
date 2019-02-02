@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load  static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block second_content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-offset-2 col-lg-8 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8  col-xs-12">
+			<div class="form-container-login">
+				<div class="form-conatainer-first-part">
+					Форма регистрации
+				</div>
+				<div class="form-container-second-part">
+					<p></p>
+				</div>
+				<div>
+					<form method="POST">
+						{% csrf_token %}
+						{% bootstrap_form form %}
+						<a class="form_help" href="{% url 'users:login' %}">Уже есть аккаунт? Войдите здесь</a>
+						<hr>
+						<button type="submit" class="btn btn-danger btn-login-register">Войти</button>
+					</form>
+				</div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

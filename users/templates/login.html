@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load  static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block second_content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8  col-xs-12">
+			<div>
+			</div>
+			<div class="form-container-login">
+				<div class="form-conatainer-first-part">
+					Войдите в аккаунт
+				</div>
+				<div>
+					<form method="POST">
+						{% csrf_token %}
+						{% bootstrap_form form %}
+						{% if messages %}
+					<ul class="messages">
+    				{% for message in messages %}
+    					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    				{% endfor %}
+					</ul>
+					<hr>
+				{% endif %}
+						<a class="form_help" href="{% url 'users:register' %}">Без аккаунта? Создайте прямо сейчас</a>
+						<hr>
+						<button type="submit" class="btn btn-danger btn-login-register">Войти</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

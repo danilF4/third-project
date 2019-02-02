@@ -1,0 +1,108 @@
+{% extends 'base/base.html' %}{% load bootstrap3 %}{% load  static %}{% block title %}{{ title }}{% endblock %}
+{% block second_content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+			<div class="container-post-form">
+				<div class="ask-question-div"><p>Спрашивайте вопрос</p></div>
+				<div class="post-form">
+					<form method="POST">
+						{% csrf_token %}
+						{% if messages %}
+					        <ul class="messages">
+    				    {% for message in messages %}
+    					    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    				    {% endfor %}
+					    </ul><hr>
+				{% endif %}
+						{% bootstrap_form form %}
+						<button type="submit" class="btn btn-lg btn-danger" style="margin-bottom: 10px">Отправить</button>
+					</form>
+				</div>
+				<div></div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+			<div class="sidebar-create-post">
+				<div class="sidebar-create-post-1">Как спрашивать вопрос</div>
+				<div class="sidebar-create-post-2">
+					<div style="font-weight: 600; margin-bottom: 8px">Достаточно ли ваш вопрос грамотно задан?</div>
+					<div class="sidebar-create-post-2-obj">Мы предпочитаем вопросы которые могут быть отвечены, а не просто обсуждены.</div>
+					<div class="sidebar-create-post-2-obj">Не бойтесь уточнять детали своей проблемы. Share your research.</div>
+					<div>Если ваш вопрос к разработчикам, <a href="#">спросите здесь.</a></div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-users"></i> <span class="subject-parent-h1">Другое</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/top_users.png' %}"> <a class="subject-a" href=""> Пользователи</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/about_us.png' %}"> <a class="subject-a" href="">О нас</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/new_user.png' %}"> <a class="subject-a" href="">Гайд по сайту</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/help.png' %}"> <a class="subject-a" href="">Помощь</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row" style="border-bottom: 2px #F4f4f4 solid">
+				<div class="upper-footer">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Аккаунт</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Изменить профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Пользователи</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Войти</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Зарегистрироваться</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Форум</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Последнее</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Спросить</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Самое популярное</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Другое</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">О нас</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Тех поддержка</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Помощь по сайту</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="social-icons">
+					<div class="icon-osn"> Медиа: </div>
+					<div class="icon"><a class="icon-a icon-a-instagram" href=""><i class="fab fa-instagram"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-facebook" href=""><i class="fab fa-facebook-square"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-youtube" href=""><i class="fab fa-youtube"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-twitter" href=""><i class="fab fa-twitter-square"></i></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

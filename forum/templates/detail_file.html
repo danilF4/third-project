@@ -1,0 +1,307 @@
+{% extends 'base/base.html' %}{% load bootstrap3 %}{% load  static %}{% block title %}{{ title }}{% endblock %}
+{% block second_content %}
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-8 col-md-8 ">
+			<div class="content">
+				{% if not post.right_answer %}<div class="ggg">{% else %}<div class="ggg green-border">{% endif %}
+				{% if not post.right_answer %}
+				<div class="top-part-detail">
+					<div class="first-block">
+						<!-- Detail Post -->
+							<div class="post-detail-topic">{{ post.title }}</div>
+					</div>
+				</div>
+				{% else %}
+				<div class="top-part-detail ">
+					<div class="first-block">
+						<!-- Detail Post -->
+						<div class="post-detail-topic">{{ post.title }}</div>
+					</div>
+				</div>
+				{% endif %}
+				{% if not post.right_answer %}<div class="middle-part ggg-1">{% else %}<div class="middle-part green-border-1">{% endif %}
+					<div class="post-div-text">
+						<div class="text-post-1">Вопрос:</div>
+						<div class="text-post-2">
+							<div class="post-text">{{ post.content|linebreaks }}</div>
+						</div>
+						<div class="delete-flag-edit flex">
+							{% if post.user == request.user %}
+							<div class="delete-flag-edit-child"><a id="Confirm_del_post" class="d-f-e-a" href="{{ post.get_delete_post }}"><i class="fas fa-trash-alt"></i> </a></div>
+							{% endif %}
+							{% if user.is_authenticated %}
+							<div class="delete-flag-edit-child" ><a id="showConfirm" class="d-f-e-a" href="{% url 'forum:post-flag' post.pk %}">{% if user in post.flags.all %} снять жалобу{% else %} жалоба{% endif %} </a></div>
+							{% endif %}
+							{% if post.user == request.user %}
+							<div class="delete-flag-edit-child"><a class="d-f-e-a" href="{% url 'forum:post-edit' post.pk %}">редакт. </a></div>
+							{% endif %}
+						</div>
+						<div class="myConfirm"></div>
+						<div class="tags-detail tags-border">
+							<div class="tag"><a class="tag-a" href="{% url 'forum:subject' slug=post.subject.slug %}">{{ post.subject }}</a></div>
+							<div class="tag"><a class="tag-a" href="{% url 'forum:grade' post.grade.slug %}">{{ post.grade }}</a></div>
+						</div>
+						<div class="like-section">
+							<div class="left-part">
+								{% if request.user in post.likes.all %}
+								<div class="like-part">
+									<div class="like"><a id="like_jq" class="like" href="{% url 'forum:like_post_redirect' pk=post.pk slug=post.slug user_pk=request.user.pk %}"><i class="fas fa-heart"></i><span class="span-like">{{ post.likes.count }}</span></div></a>
+								</div>
+								{% else %}
+								<div class="like-part">
+									<div class="like">{% if user.is_authenticated %}<a id="like_jq" class="like" href="{% url 'forum:like_post_redirect' pk=post.pk slug=post.slug user_pk=request.user.pk %}">{% else %}<a id="like_jq" class="like" title="You can't like this post because you're not logged in" href="#">{% endif %}<i class="far fa-heart "></i><span class="span-like">{{ post.likes.count }}</span></div></a>
+								</div>
+								{% endif %}
+							</div>
+							<div class="right-part">
+								<div class="user-container-comment-post">
+									<div class="flex">
+										<div class="asked-created-at" style="font-size: 13px">{{ post.timestamp|timesince }} назад
+										</div>
+									</div>
+									<div class="flex">
+										{% if post.user.userprofile.image %}
+											<div class="user-container-top-left"><img width="42" class="img-circle" height="42" style="object-fit: cover"  src="{{ post.user.userprofile.image.url }}"></div>
+											{% else %}
+											<div class="user-container-top-left"><img width="39"  src="{% static 'img/no-photo.png' %}"></div>
+											{% endif %}
+											<div class="user-container-top-right">
+												<div style="font-size: 14px"><a href="{% url 'users:profile' post.user.username %}">{{ post.user.username }}</a></div>
+											<div style="font-size: 13px">Рейтинг: {{ post.user.userprofile.reputation }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					</div>
+					{% if not post.right_answer %}<div class="comment-form">{% else %}<div class="comment-form ">{% endif %}
+							<div class="comment-form-up"><p style="border-bottom: 1px #ccc solid; margin-right: 1%; padding-bottom: 4px; font-size:1em">Знаете ответ? Пожалуйста ответьте</p></div>
+
+							<div class="comment-form-form">
+								<form method="post" id="new_user_form">
+
+									{% csrf_token %}
+									{% if messages %}
+					                <ul class="messages">
+    				                {% for message in messages %}
+    					                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    				                {% endfor %}
+					                </ul>
+					                <hr>
+				                    {% endif %}
+									{% bootstrap_form form %}
+									<button type="submit" class="btn btn-danger" style="margin-left: 1%; font-size: 1.4em">Отправить</button>
+								</form>
+							</div>
+
+
+						</div>
+					{% if not post.right_answer %}<div class="comment-super-section">{% else %}<div class="comment-super-section-1 green-border">{% endif %}
+						<div class="comments-div"><p style="font-size:0.7em;margin-bottom:0px;">{{ post.answers }} {% if post.answers == 1 %} Комметарий {% elif post.answers == 2 %} Комментария{% else %}Комментариев{% endif %}</p></div>
+						<div class="comment-section">
+							<div class="comments">
+								{% for comment in comments %}
+									<div class="comment">
+										<div class="comment-text">{{ comment.content| linebreaks }}</div>
+
+										<div class="flex child_comm">
+											<div class="flex-left">
+												<!-- Лайки -->
+												{% if request.user in comment.likes.all %}
+													<div class="like-part-comment"><a class="like-comment" href="{% url 'forum:comment-like' comment.pk %}"><div class="like"><i class="fas fa-heart"></i><span class="span-like">{{ 	comment.likes.count }}</span></div></a></div>
+												{% else %}
+													<div class="like-part-comment"><a class="like-comment" href="{% url 'forum:comment-like' comment.pk %}"><div class="like"><i class="far fa-heart"></i><span class="span-like">{{ 	comment.likes.count }}</span></div></a></div>
+												{% endif %}
+
+												<!-- Для одного пользователя -->
+												{% if request.user == post.user %}
+													{% if post.right_answer == False %}
+														<div class="galochka-div" title="Если ответ правильный, то сделайте его видимым для всех как правильный"><a href="{% url 'forum:make_right' post.pk comment.pk %}" class="galochka-false"><i class="far fa-check-circle"></i></a></div>
+													{% endif %}
+													{% if post.right_answer == True and comment.right_answer == True %}
+														<div class="galochka-div" title="Если этот ответ неправильный, нажмите на галочку"><a href="{% url 'forum:make_right' post.pk comment.pk %}" class="galochka-gr-red" style="color: #81B931"><i class="far fa-check-circle galochka-gr-red"></i></a></div>
+													{% endif %}
+													{% if post.right_answer == True and comment.right_answer == False %}
+														<div class="galochka-div" title="Если этот ответ правильный, нажмите на галочку"><a href="{% url 'forum:make_right' post.pk comment.pk %}" class="galochka-true" style="color: #888888"><i class="far fa-check-circle galochka-true"></i></a></div>
+													{% endif %}
+												{% endif %}
+												<!-- Для всех остальных пользователей -->
+												{% if not request.user == post.user %}
+													{% if comment.right_answer %}
+													<div class="galochka-div" title="Если ответ правильный, нажмите на галочку"><i class="far fa-check-circle" style="color: #12B931"></i></div>
+													{% else %}
+													{% endif %}
+												{% endif %}
+
+
+											</div>
+
+
+
+											<div class="flex-right">
+												<div class="user-container-comment">
+													<div class="flex">
+														<div class="asked-created-at" style="font-size: 12px">{{ comment.timestamp|timesince }} назад</div>
+													</div>
+													<div class="flex">
+														{% if comment.user.userprofile.image %}
+														<div class="user-container-top-left"><a href=""><img width="46" height="46" style="object-fit: cover"  src="{{ comment.user.userprofile.image.url}}"></a></div>
+														{% else %}
+														<div class="user-container-top-left"><img width="39"  src="{% static 'img/no-photo.png' %}"></div>
+														{% endif %}
+														<div class="user-container-top-right">
+															<div style="font-size: 14px"><a href="{% url 'users:profile' comment.user.username %}">{{ comment.user.username }}</a></div>
+															<div style="font-size: 13px">Рейтинг: {{ comment.user.userprofile.reputation }}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="delete-flag-edit-comment flex">
+											{% if comment.user == request.user %}
+											<div class="delete-flag-edit-child"><a class="d-f-e-c-a" href="{{ comment.get_delete_comment }}"><i class="fas fa-trash-alt"></i> </a></div>
+											{% endif %}
+											{% if user.is_authenticated %}
+											<div class="delete-flag-edit-child"><a class="d-f-e-c-a" href="{% url 'forum:comment-flag' comment.pk %}">{% if user in comment.flags.all %} снять жалобу{% else %} жалоба{% endif %} </a></div>
+											{% endif %}
+											{% if comment.user == request.user %}
+											<div class="delete-flag-edit-child"><a class="d-f-e-c-a" href="#">редактировать </a></div>
+											{% endif %}
+
+										</div>
+
+										{% for child_comment in comment.children %}
+											<div class="flex" style="padding-left: 1.5em; padding-top: 10px">
+												<div class=""><a href="{% url 'users:profile' child_comment.user.username %}">{% if child_comment.user.userprofile.image %}<img class="img-circle" style="margin-top: 7.5px; object-fit: cover" height="45" width="45" src="{{ child_comment.user.userprofile.image.url }}">{% else %}<img class="img-circle" style="margin-top: 7.5px" width="45" src="{% static 'img/no_photo.jpg' %}">{% endif %}</a></div>
+
+												<div class="" style="padding-left: 20px; padding-bottom: 15px; font-size: 0.7em; word-wrap: break-word; overflow: hidden;">
+													<p style="">{{ child_comment.content|linebreaks }}</p>
+													<footer style="font-size: 0.7em"><a href="{% url 'users:profile' child_comment.user.username %}"> {{ child_comment.user.username }} </a> | {% if post.user == request.user %}<a class="d-f-e-c-a" href=""><i class="fas fa-trash-alt"></i></a> | <a class="d-f-e-c-a" href="{% url 'forum:comment-edit' child_comment.id %}"><i class="fas fa-edit"></i></a>{% endif %} | {{ child_comment.timestamp|timesince }}</footer>
+												</div>
+												</div>
+											{% endfor %}
+										<footer style="font-size: 0.8em"><a href="#" class="comment-reply-btn"> Ответить</a></footer>
+										<div class="comment-reply" style="display: none">
+											<form method="POST" action=".">
+												{% csrf_token %}
+												{% bootstrap_form form %}
+												<input type="hidden" name="parent_id" value="{{ comment.id }}">
+												<input type="submit" name="" class="btn btn-default" value="Отправить">
+											</form>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="content-bottom ">
+						<div class="bottom-post">Не тот ответ, который вы ищете <a href="{% url 'forum:create_post' %}" class="bottom-post-a">задайте всой вопрос на Světlo прямо сейчас</a></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-graduation-cap"></i> <span class="subject-parent-h1">Предметы</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							{% for subject in all_subjects %}
+							<li class="subject-li"> <img class="img-meme" src="{{ subject.sub_img.url }}"><a class="subject-a" href="{% url 'forum:subject' subject.slug %}">{{ subject }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-gem"></i> <span class="subject-parent-h1">Классы</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							{% for grade in grades %}
+							<li class="subject-li"><img  class="img-meme" src="{{ grade.grade_img.url }}"> <a class="subject-a" href="{% url 'forum:grade' grade.slug %}">{{ grade }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-users"></i> <span class="subject-parent-h1">Другое</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/top_users.png' %}"> <a class="subject-a" href=""> Пользователи</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/about_us.png' %}"> <a class="subject-a" href="">О нас</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/new_user.png' %}"> <a class="subject-a" href="">Гайд по сайту</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/help.png' %}"> <a class="subject-a" href="">Помощь</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+<div id="footer">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row" style="border-bottom: 2px #F4f4f4 solid">
+				<div class="upper-footer">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Аккаунт</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Изменить профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Пользователи</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Войти</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Зарегистрироваться</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Форум</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Последнее</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Спросить</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Самое популярное</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Другое</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">О нас</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Тех поддержка</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Помощь по сайту</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="social-icons">
+					<div class="icon-osn"> Медиа: </div>
+					<div class="icon"><a class="icon-a icon-a-instagram" href=""><i class="fab fa-instagram"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-facebook" href=""><i class="fab fa-facebook-square"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-youtube" href=""><i class="fab fa-youtube"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-twitter" href=""><i class="fab fa-twitter-square"></i></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.1/marked.min.js"></script>
+
+{% endblock %}

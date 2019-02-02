@@ -1,0 +1,190 @@
+{% extends 'base/base.html' %}{% load  static %}{% block title %}{{ title }}{% endblock %}
+{% block second_content %}
+<div class="container" >
+	<div class="row">
+		<div class="col-lg-8 col-md-8 ">
+			<div class="content">
+			    <div class="two-buttons-div">
+                    <div class="col-lg-offset-2 col-lg-3 col-md-offset-1 col-md-4 col-sm-offset-2 col-sm-3 col-xs-6">
+                        <a href="{% url 'forum:create_post' %}"><div class="button-up"> <i style="padding-right:2px;" class="fas fa-pen green-i"></i> Спросить </div></a>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-3  col-md-offset-2 col-md-4 col-sm-offset-2 col-sm-3 col-xs-6">
+                        <a class="button-up" href=""> <i class="fas fa-info-circle green-i"></i> Помощь</a>
+                    </div>
+				</div>
+				<div class="middle-part">
+					<div class="middle-part-p1">
+
+					</div>
+					<div class="posts">
+						{% for post in posts %}
+						<div class="post">
+							<div class="post-upper-part">
+								<div class="post-upper-flex">
+									<div class="right-wrong">{% if post.right_answer %}
+										<img width="40" src="{% static 'img/galochka.png' %}">{% else %}<img width="40" src="{% static 'img/No.png' %}">
+									{% endif %}</div>
+									<div class="post-topic">
+										<a href="{% url 'forum:detail' post.pk post.slug %}" class="post-topic-a"> {{ post.title|linebreaks|slice:":100" }}</a>
+										<div class="posts-text">{{ post.content|linebreaks|slice:":130" }}...</div>
+										<div class="flex">
+											<div style="flex: 1 auto">
+												<div class="tags">
+													<div class="tag"><a class="tag-a" href="{% url 'forum:subject' post.subject.slug %}">{{ post.subject }}</a></div>
+													<div class="tag"><a class="tag-a" href="{% url 'forum:grade' post.grade.slug %}">{{ post.grade }}</a></div>
+												</div>
+												<div class="post-low-part">
+													<div class="post-likes">
+														<i class="far fa-heart"> <span class="post-likes-count">{{ post.likes.count }}</span></i>
+													</div>
+													<div class="post-comments">
+														<i class="far fa-comments"> <span class="post-comments-count">{{ post.answers }}</span></i>
+													</div>
+											</div>
+											</div>
+											<div class="right-part">
+												<div class="user-container">
+													<div class="flex">
+														<div class="asked-created-at">{{ post.timestamp|timesince }} назад</div>
+													</div>
+													<div class="flex">
+														{% if post.user.userprofile.image %}
+														<div class="user-container-top-left"><img  width="38" class="img-circle" height="38" style="object-fit: cover"  src="{{ post.user.userprofile.image.url}}"></div>
+														{% else %}
+														<div class="user-container-top-left"><img width="46"  src="{% static 'img/no-photo.png' %}"></div>
+														{% endif %}
+														<div class="user-container-top-right">
+															<div ><a style="font-size:0.95em;" href="{% url 'users:profile' post.user.username %}">{{ post.user.username }}</a></div>
+															<div style="font-size:0.9em;">Рейтинг: {{ post.user.userprofile.reputation }}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="low-part-pagination">
+						<div class="pagination">
+						{% if posts.has_previous %}
+							<a class="pagination_first_page" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="fas fa-angle-double-left"></i></a>
+							<a class="pagination_previous_page" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="fas fa-angle-left"></i></a>
+						{% endif  %}
+						{% for num in posts.paginator.page_range %}
+							{% if posts.number == num %}
+								<a class="num_page_on" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+							{% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+								<a class="num_page" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+							{% endif %}
+						{% endfor %}
+						{% if posts.has_next %}
+							<a class="pagination_next_page" href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="fas fa-angle-right"></i></a>
+							<a class="pagination_last_page" href="?page={{ posts.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="fas fa-angle-double-right"></i></a>
+						{% endif  %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-graduation-cap"></i> <span class="subject-parent-h1">Предмет</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							{% for subject in all_subjects %}
+							<li class="subject-li"><div class="img-meme-div"> <img class="img-meme" src="{{ subject.sub_img.url }}"><a class="subject-a" href="{% url 'forum:subject' subject.slug %}">{{ subject }}</a></div></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-gem"></i> <span class="subject-parent-h1">Класс</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							{% for grade in grades %}
+							<li class="subject-li"><img  class="img-meme" src="{{ grade.grade_img.url }}"> <a class="subject-a" href="{% url 'forum:grade' grade.slug %}">{{ grade }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+				<div class="subjects">
+					<div class="subject-parent"><i class="fas fa-users"></i> <span class="subject-parent-h1">Другое</span></div>
+					<div class="subject-child">
+						<ul compact="subject-ul">
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/top_users.png' %}"> <a class="subject-a" href="">Пользователи</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/about_us.png' %}"> <a class="subject-a" href="">О нас</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/new_user.png' %}"> <a class="subject-a" href="">Гайд по сайту</a></li>
+							<li class="subject-li"> <img  class="img-meme" src="{% static 'icons/other/help.png' %}"> <a class="subject-a" href="">Помощь</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row" style="border-bottom: 2px #F4f4f4 solid">
+				<div class="upper-footer">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Аккаунт</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Изменить профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Профиль</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Пользователи</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Войти</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Зарегистрироваться</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Форум</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Последнее</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Спросить</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Самое популярное</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+						<div class="footer-colona">
+							<div class="footer-upper-part">Другое</div>
+							<div class="footer-content-part">
+								<ul class="footer-ul-part">
+									<li class="footer-li-part"><a class="footer-a-part" href="#">О нас</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Тех поддержка</a></li>
+									<li class="footer-li-part"><a class="footer-a-part" href="#">Помощь по сайту</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="social-icons">
+					<div class="icon-osn"> Медиа: </div>
+					<div class="icon"><a class="icon-a icon-a-instagram" href=""><i class="fab fa-instagram"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-facebook" href=""><i class="fab fa-facebook-square"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-youtube" href=""><i class="fab fa-youtube"></i></a></div>
+					<div class="icon"><a class="icon-a icon-a-twitter" href=""><i class="fab fa-twitter-square"></i></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
