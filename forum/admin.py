@@ -6,6 +6,8 @@ admin.site.register(GradePost)
 
 class AdminCommentSchool(admin.ModelAdmin):
 	list_display = ['content','content_type', 'user', 'right_answer', 'likes_', 'flags_']
+	list_filter = ('timestamp', 'content', 'right_answer')
+	search_fields = ('title', 'content')
 	def likes_(self,instance):
 		return instance.total_comment_likes()
 	def flags_(self, instance):
